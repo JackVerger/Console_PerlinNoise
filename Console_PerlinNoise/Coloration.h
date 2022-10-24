@@ -5,16 +5,19 @@ using namespace std;
 class Coloration
 {
 	private :
-		string mainColorName;
+		string textColorName;
 		string bgColorName;
-		int mainColorCode;
+		int textColorCode;
 		int bgColorCode;
+		char symbol;
 
 	public :
 
 		//Constructor
-		Coloration(string newMainColorName, string newBgColorName, int newMainColorCode, int newBgColorCode);
+		Coloration(string newTextColorName, string newBgColorName, int newTextColorCode, int newBgColorCode, char newSymbol);
 
+		//Methods
 		void apply();
+		void reset();
 };
 

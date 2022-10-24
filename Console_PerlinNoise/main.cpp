@@ -15,10 +15,9 @@ void goToLigCol(int ligne, int colonne)
 
 int main()
 {
-	cout << "bonjour";
-	Coloration couleur("Light Red", "Black", 'c', '0');
-	cout << "deuxieme";
+	Coloration couleur("Bright Red", "Black", 12, 0, 'A');
 	couleur.apply();
+	couleur.reset();
 
 
 	//int compteur = 0;

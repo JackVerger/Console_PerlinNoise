@@ -1,30 +1,43 @@
 #include "Coloration.h"
 
-Coloration::Coloration(string newMainColorName, string newBgColorName, int newMainColorCode, int newBgColorCode)
-	: mainColorName(newMainColorName), bgColorName(newBgColorName), mainColorCode(newMainColorCode), bgColorCode(newBgColorCode)
+//Constructor
+Coloration::Coloration(string newTextColorName, string newBgColorName, int newTextColorCode, int newBgColorCode, char newSymbol)
+	: textColorName(newTextColorName), bgColorName(newBgColorName), textColorCode(newTextColorCode), bgColorCode(newBgColorCode), symbol(newSymbol)
 {
 
 }
 
+//Method to apply the color to the console
 void Coloration::apply()
 {
-	//Creating the command in a string containing the BG color and the MAIN color
-	string strCommand = "color ";
-	strCommand += bgColorCode;
-	strCommand += mainColorCode;
-
-
-	//Calculating the size of the corresponding char*
-	int n = strCommand.length() + 1;
-
-	//Creating the char* command
-	char* charCommand = new char[n];
-
-	//Copying the string command in the char array
-	strcpy_s(charCommand, n, strCommand.c_str());
-
-	//Applying the command
-	system(charCommand);
-
-	cout << endl << strCommand;
+	HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(H, bgColorCode * 16 + textColorCode);
 }
+
+//Method to reset the color of the console to a default white (code 7)
+void Coloration::reset()
+{
+	HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(H, 7);
+}
+
+
+
+/*
+0 : Black
+1 : Blue
+2 : Green
+3 : Cyan
+4 : Red
+5 : Purple
+6 : Yellow (Dark)
+7 : Default white
+8 : Grey
+9 : Bright blue
+10 : Bright green
+11 : Bright cyan
+12 : Bright red
+13 : Pink/Magenta
+14 : Yellow
+15 : Bright white
+*/

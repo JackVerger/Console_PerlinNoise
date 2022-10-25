@@ -1,0 +1,16 @@
+Black 0
+Blue 1
+Green 2
+Cyan 3
+Red 4
+Purple 5
+Yellow(Dark) 6
+DefaultWhite 7
+Grey 8
+BrightBlue 9
+BrightGreen 10
+BrightCyan 11
+BrightRed 12
+Pink 13
+Yellow 14
+BrightWhite 15

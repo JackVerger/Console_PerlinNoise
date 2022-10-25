@@ -1,6 +1,8 @@
 #include <iostream>
 #include <windows.h>
-#include <cstring>
+#include <vector>
+#include <fstream>
+
 
 using namespace std;
 

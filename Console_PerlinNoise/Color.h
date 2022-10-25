@@ -10,7 +10,6 @@ class Color
 
 		//Constructor
 		Color(string newName, int newCode);
-		//Color(Color& colorToCopy);
 
 		//Getters
 		string getName();
@@ -19,5 +18,8 @@ class Color
 		//Setters
 		void setName(string newName);
 		void setCode(int newCode);
+
+		void applyColor();
+		void applyColor(int textCode);
 };
 

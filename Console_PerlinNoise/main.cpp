@@ -208,62 +208,95 @@ int widthSelection()
 }
 
 
+int signalQuantitySelection()
+{
+	int quantity;
+
+	cout << "SIGNAL NUMBER SELECTION" << endl << endl;
+	cout << "Please, enter the number of signals who will be displayed on the screen" << endl;
+
+	//The user enters the chosen quantity of signal
+	do
+	{
+		cout << endl << "Your choice : ";
+		cin >> quantity;
+
+		//If the quantity is not valid, we tell the user
+		if (quantity <= 0)
+		{
+			cout << "Please, enter a positive value" << endl;
+		}
+	} while (quantity <= 0);
+
+	system("cls");
+
+	return quantity;
+}
+
+
+
+
 int main()
 {
+	//Initialize the random seed
+	srand(time(NULL));
+
+	//Reinitialize the style of the console
 	resetStyle();
+
+	//Variables declaration
 	vector<Color> colorsTab;
+	vector<Signal> signalTab;
 	int colorIndex = -1;
+	int signalQuantity = 0;
 	char symbol = ' ';
 	int width = -1;
 
+	//We read the list of colors in the dedicated file
 	readColors(colorsTab);
 
-	symbol = symbolSelection();
-	width = widthSelection();
+	//The user enters the number of signal
+	signalQuantity = signalQuantitySelection();
 
-	colorIndex = textColorMenu(colorsTab, symbol, width);
-	Color symbolColor(colorsTab[colorIndex].getName(), colorsTab[colorIndex].getCode());
+	for (int i = 1; i <= signalQuantity; i++)
+	{
+		//The user enters the symbol of the signal
+		symbol = symbolSelection();
 
-	colorIndex = bgColorMenu(colorsTab, colorIndex, symbol, width);
-	Color bgColor(colorsTab[colorIndex].getName(), colorsTab[colorIndex].getCode());
+		//Then he enters the width of the signal
+		width = widthSelection();
 
-	Style newStyle(symbolColor, bgColor);
+		//Then he choses the color of the signal text
+		colorIndex = textColorMenu(colorsTab, symbol, width);
+		Color symbolColor(colorsTab[colorIndex].getName(), colorsTab[colorIndex].getCode());
 
-	Signal newSignal(symbol, width, symbolColor, bgColor);
+		//Then the color of the signal background 
+		colorIndex = bgColorMenu(colorsTab, colorIndex, symbol, width);
+		Color bgColor(colorsTab[colorIndex].getName(), colorsTab[colorIndex].getCode());
 
-	// Create a PerlinNoise object with the reference permutation vector
-	PerlinNoise pn;
+		//We initialize the corresponding Style object
+		Style newStyle(symbolColor, bgColor);
 
-	double x = 0;
-	double y = 0;
-	int compteurLi = 0;
-	int correspondance = 0;
-	while (true) {
+		//We create the corresponding signal with all these information
+		Signal newSignal(symbol, width, symbolColor, bgColor, rand() % 100);
 
-		compteurLi++;
-		double noise = pn.noise(x, 0.8, 0.55);
-		x += 0.01;
+		//And finally add it to the signal vector
+		signalTab.push_back(newSignal);
+	}
+	
 
-		correspondance = int(noise * 180.0);
+	while (true)
+	{
+		for (int i = 0; i < signalTab.size(); i++)
+		{
+			//We update the position of the signal according of its Perlin noise array
+			signalTab[i].updateSignal();
 
-		goToLigCol(compteurLi, correspondance);
+			//We display the signal
+			signalTab[i].displaySignal();
+		}
 
-		newStyle.applyStyle();
-		cout << 77777;
-		resetStyle();
-
-		noise = pn.noise(y, 0.8, 0.1);
-		y += 0.01;
-
-		correspondance = int(noise * 180.0);
-
-		goToLigCol(compteurLi, correspondance);
-
-		newStyle.applyStyle();
-		cout << 888888;
-		resetStyle();
-
-		Sleep(10);
+		Sleep(5);
 	}
 	
 	return 0;

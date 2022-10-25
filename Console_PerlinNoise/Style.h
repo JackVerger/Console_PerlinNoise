@@ -6,15 +6,13 @@ class Style
 	private :
 		Color textColor;
 		Color bgColor;
-		char symbol;
 
 	public :
 
 		//Constructor
-		Style(Color newTextColor, Color newBgColor, char newSymbol);
+		Style(Color newTextColor, Color newBgColor);
 
 		//Methods
-		void apply();
-		void reset();
+		void applyStyle();
 };
 

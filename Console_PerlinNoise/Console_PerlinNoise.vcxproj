@@ -128,6 +128,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="SP_menus.cpp" />
+    <ClCompile Include="SP_tools.cpp" />
     <ClCompile Include="Style.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

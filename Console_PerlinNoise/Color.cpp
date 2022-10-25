@@ -32,3 +32,15 @@ void Color::setCode(int newCode)
 {
 	code = newCode;
 }
+
+void Color::applyColor()
+{
+	HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(H, code);
+}
+
+void Color::applyColor(int textCode)
+{
+	HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(H, code*16 + textCode);
+}

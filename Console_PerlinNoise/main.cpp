@@ -1,5 +1,4 @@
-#include "Style.h"
-#include <typeinfo>
+#include "Signal.h"
 
 void goToLigCol(int ligne, int colonne)
 {
@@ -39,7 +38,7 @@ void readColors(vector<Color>& colorsTab)
 }
 
 
-void displayColors(vector<Color> colorsTab)
+void displayColors(vector<Color> colorsTab, char symbol, int width)
 {
 	//We go through the color vector
 	for (int i = 0; i < colorsTab.size(); i++)
@@ -53,7 +52,18 @@ void displayColors(vector<Color> colorsTab)
 		}
 		
 		//We display the color name
-		cout << colorsTab[i].getName();
+		cout << colorsTab[i].getName() << "\t";
+
+		if (colorsTab[i].getName().size() < 8)
+		{
+			cout << "\t";
+		}
+
+		//We display the future rendering
+		for (int j = 1; j <= width; j++)
+		{
+			cout << symbol;
+		}
 
 		//We reset the default white color if it has been previously changed
 		if (colorsTab[i].getName() != "Black")
@@ -66,7 +76,7 @@ void displayColors(vector<Color> colorsTab)
 }
 
 
-void displayColors(vector<Color> colorsTab, int textCode)
+void displayColors(vector<Color> colorsTab, int textCode, char symbol, int width)
 {
 	//We go through the color vector
 	for (int i = 0; i < colorsTab.size(); i++)
@@ -77,7 +87,18 @@ void displayColors(vector<Color> colorsTab, int textCode)
 		colorsTab[i].applyColor(textCode);
 		
 		//We display the color name
-		cout << colorsTab[i].getName();
+		cout << colorsTab[i].getName() << "\t";
+
+		if (colorsTab[i].getName().size() < 8)
+		{
+			cout << "\t";
+		}
+
+		//We display the future rendering
+		for (int j = 1; j <= width; j++)
+		{
+			cout << symbol;
+		}
 
 		//We reset the console style to Default White
 		resetStyle();
@@ -87,19 +108,23 @@ void displayColors(vector<Color> colorsTab, int textCode)
 }
 
 
-int textColorMenu(vector<Color> colorsTab)
+int textColorMenu(vector<Color> colorsTab, char symbol, int width)
 {
 	int colorIndex;
+
 	cout << "STYLE SELECTION : Text color" << endl << endl;
 	cout << "Please, select the color of the signal symbol :" << endl;
 
-	displayColors(colorsTab);
+	//We display the available colors
+	displayColors(colorsTab, symbol, width);
 
+	//The user has to enter the index of the chosen color
 	do
 	{
 		cout << endl << "Your choice : ";
 		cin >> colorIndex;
 
+		//If the index is not valid, we tell the user
 		if (colorIndex < 0 || colorIndex > 15)
 		{
 			cout << "Please, chose a valid color." << endl;
@@ -112,19 +137,22 @@ int textColorMenu(vector<Color> colorsTab)
 }
 
 
-int bgColorMenu(vector<Color> colorsTab, int textCode)
+int bgColorMenu(vector<Color> colorsTab, int textCode, char symbol, int width)
 {
 	int colorIndex;
+
 	cout << "STYLE SELECTION : Background color" << endl << endl;
 	cout << "Please, select the color of the signal symbol background :" << endl;
 
-	displayColors(colorsTab, textCode);
+	//We display the available colors
+	displayColors(colorsTab, textCode, symbol, width);
 
 	do
 	{
 		cout << endl << "Your choice : ";
 		cin >> colorIndex;
 
+		//If the index is not valid, we tell the user
 		if (colorIndex < 0 || colorIndex > 15)
 		{
 			cout << "Please, chose a valid color." << endl;
@@ -134,24 +162,73 @@ int bgColorMenu(vector<Color> colorsTab, int textCode)
 	system("cls");
 
 	return colorIndex;
+}
+
+char symbolSelection()
+{
+	char symbol;
+
+	cout << "SYMBOL SELECTION" << endl << endl;
+	cout << "Please, enter the symbol of the signal (except SPACE character)." << endl;
+
+	//The user enters the chosen symbol
+	cout << endl << "Your choice : ";
+	cin >> symbol;
+
+	system("cls");
+
+	return symbol;
+}
+
+
+int widthSelection()
+{
+	int width;
+
+	cout << "WIDTH SELECTION" << endl << endl;
+	cout << "Please, enter the width of the signal (only positive odd value)." << endl;
+
+	//The user enters the chosen width of the signal
+	do
+	{
+		cout << endl << "Your choice : ";
+		cin >> width;
+
+		//If the width is not valid, we tell the user
+		if (width%2 == 0 || width < 1)
+		{
+			cout << "Please, chose a positive odd value." << endl;
+		}
+	} while (width % 2 == 0 || width < 1);
+
+	system("cls");
+
+	return width;
 }
 
 
 int main()
 {
 	vector<Color> colorsTab;
-	int colorIndex;
+	int colorIndex = -1;
+	char symbol = ' ';
+	int width = -1;
 
 	readColors(colorsTab);
 
-	colorIndex = textColorMenu(colorsTab);
-	
+	symbol = symbolSelection();
+	width = widthSelection();
+
+	colorIndex = textColorMenu(colorsTab, symbol, width);
 	Color symbolColor(colorsTab[colorIndex].getName(), colorsTab[colorIndex].getCode());
 
-	colorIndex = bgColorMenu(colorsTab, colorIndex);
+	colorIndex = bgColorMenu(colorsTab, colorIndex, symbol, width);
 	Color bgColor(colorsTab[colorIndex].getName(), colorsTab[colorIndex].getCode());
 
 	Style newStyle(symbolColor, bgColor);
+
+	//Signal newSignal(symbol, width, symbolColor, bgColor);
+
 
 
 

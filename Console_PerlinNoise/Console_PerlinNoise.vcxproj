@@ -128,13 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Color.cpp" />
-    <ClCompile Include="SP_menus.cpp" />
-    <ClCompile Include="SP_tools.cpp" />
+    <ClCompile Include="Signal.cpp" />
     <ClCompile Include="Style.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Signal.h" />
     <ClInclude Include="Style.h" />
     <ClInclude Include="header.h" />
   </ItemGroup>

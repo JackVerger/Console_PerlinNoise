@@ -1,6 +1,5 @@
-#include "Coloration.h"
+#include "Style.h"
 #include <typeinfo>
-
 
 void goToLigCol(int ligne, int colonne)
 {
@@ -12,12 +11,48 @@ void goToLigCol(int ligne, int colonne)
 }
 
 
+void readColors(vector<Color>& colorsTab)
+{
+	string colorName;
+	int colorCode;
+
+	//Opening the file in reading mod
+	ifstream file;
+	file.open("colors.txt", ios::in | ios::binary);
+
+	//Reading the entire file 
+	while (!file.eof())
+	{
+		file >> colorName >> colorCode;
+		colorsTab.push_back(Color(colorName, colorCode));
+	}
+
+	//Closing the file
+	file.close();
+}
+
+
+void displayColors(vector<Color> colorsTab)
+{
+	for (int i = 0; i < colorsTab.size(); i++)
+	{
+		cout << colorsTab[i].getName() << colorsTab[i].getCode() << endl;
+		cout << "oui" << endl;
+		cout << typeid(colorsTab[i]).name() << endl << endl;
+	}
+}
+
+
 
 int main()
 {
-	Coloration couleur("Bright Red", "Black", 12, 0, 'A');
-	couleur.apply();
-	couleur.reset();
+	vector<Color> colorsTab;
+	
+	Color test("Test", 0);
+	cout << "test : " << typeid(test).name() << endl;
+
+	readColors(colorsTab);
+	displayColors(colorsTab);
 
 
 	//int compteur = 0;

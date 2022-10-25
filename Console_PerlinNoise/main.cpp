@@ -1,4 +1,5 @@
 #include "Signal.h"
+#include "PerlinNoise.h"
 
 void goToLigCol(int ligne, int colonne)
 {
@@ -209,6 +210,7 @@ int widthSelection()
 
 int main()
 {
+	resetStyle();
 	vector<Color> colorsTab;
 	int colorIndex = -1;
 	char symbol = ' ';
@@ -227,28 +229,42 @@ int main()
 
 	Style newStyle(symbolColor, bgColor);
 
-	//Signal newSignal(symbol, width, symbolColor, bgColor);
+	Signal newSignal(symbol, width, symbolColor, bgColor);
 
+	// Create a PerlinNoise object with the reference permutation vector
+	PerlinNoise pn;
 
+	double x = 0;
+	double y = 0;
+	int compteurLi = 0;
+	int correspondance = 0;
+	while (true) {
 
+		compteurLi++;
+		double noise = pn.noise(x, 0.8, 0.55);
+		x += 0.01;
 
-	//int compteur = 0;
-	//int compteurLi = 0;
-	//cout << "A A" << endl;
-	//fflush(stdout);
-	//while (true)
-	//{
-	//	compteur++;
-	//	compteurLi++;
-	//	if (compteur >= 10)
-	//	{
-	//		compteur = 0;
-	//	}
+		correspondance = int(noise * 180.0);
 
-	//	goToLigCol(compteurLi, compteur);
-	//	printf("B\n");
-	//}
+		goToLigCol(compteurLi, correspondance);
 
+		newStyle.applyStyle();
+		cout << 77777;
+		resetStyle();
 
+		noise = pn.noise(y, 0.8, 0.1);
+		y += 0.01;
+
+		correspondance = int(noise * 180.0);
+
+		goToLigCol(compteurLi, correspondance);
+
+		newStyle.applyStyle();
+		cout << 888888;
+		resetStyle();
+
+		Sleep(10);
+	}
+	
 	return 0;
 }
